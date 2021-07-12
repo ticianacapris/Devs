@@ -10,12 +10,22 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'HomeDevWebPartStrings';
 import HomeDev from './components/HomeDev';
 import { IHomeDevProps } from './components/IHomeDevProps';
+import { sp } from '@pnp/sp';
 
 export interface IHomeDevWebPartProps {
   description: string;
 }
 
 export default class HomeDevWebPart extends BaseClientSideWebPart<IHomeDevWebPartProps> {
+
+  //configurar o pnp
+  public onInit(): Promise<void> {
+    return super.onInit().then(_ => {
+      sp.setup({
+        spfxContext: this.context
+      });
+    });
+  }
 
   public render(): void {
     const element: React.ReactElement<IHomeDevProps> = React.createElement(
